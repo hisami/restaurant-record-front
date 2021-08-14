@@ -6,7 +6,6 @@ import { useFetchRestaurant } from "../hooks/useRestaurant";
 
 const Restaurant: React.FC = () => {
   const { isLoading, restaurantList } = useFetchRestaurant();
-  console.log(restaurantList);
   return (
     <View style={tailwind("p-6 h-full")}>
       <Text style={tailwind("text-3xl font-bold text-center")}>
