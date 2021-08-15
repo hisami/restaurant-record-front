@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, LogBox } from "react-native";
 import tailwind from "tailwind-rn";
 import { QueryClient, QueryClientProvider } from "react-query";
 import * as Location from "expo-location";
@@ -7,6 +7,7 @@ import * as Location from "expo-location";
 import Restaurant from "./pages/Restaurant";
 
 const queryClient = new QueryClient();
+LogBox.ignoreLogs(["Setting a timer"]);
 
 const App: React.FC = () => {
   useEffect(() => {
