@@ -1,11 +1,20 @@
 import React from "react";
+import { useState } from "react";
 import { Text, View, TextInput, ScrollView, Button } from "react-native";
 import tailwind from "tailwind-rn";
 
-import { useFetchRestaurant } from "../hooks/useRestaurant";
+import {
+  useFetchRestaurant,
+  useFetchGoogleRestaurant,
+} from "../hooks/useRestaurant";
 
 const Restaurant: React.FC = () => {
+  const [location, setLocation] = useState("0,0");
   const { isLoading, restaurantList } = useFetchRestaurant();
+  const { googleRestaurantList } = useFetchGoogleRestaurant(location);
+
+  console.log(googleRestaurantList);
+
   return (
     <View style={tailwind("p-6 h-full")}>
       <Text style={tailwind("text-3xl font-bold text-center")}>
@@ -36,7 +45,7 @@ const Restaurant: React.FC = () => {
       <View style={tailwind("my-4 h-10")}>
         <Button
           onPress={() => {
-            console.log("test");
+            setLocation("0,0");
           }}
           title="近くのお店を検索して追加"
         />
