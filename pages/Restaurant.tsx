@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Text, View, TextInput, ScrollView, Button, Modal } from "react-native";
 import tailwind from "tailwind-rn";
 import * as Location from "expo-location";
@@ -7,6 +7,7 @@ import * as Location from "expo-location";
 import {
   useFetchRestaurant,
   useFetchGoogleRestaurant,
+  useCreateRestaurant,
 } from "../hooks/useRestaurant";
 
 const Restaurant: React.FC = () => {
@@ -15,12 +16,21 @@ const Restaurant: React.FC = () => {
   const { isLoading: isGoogleLoading, googleRestaurantList } =
     useFetchGoogleRestaurant(location);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [restaurantName, setRestaurantName] = useState("");
 
   const getLocation = async () => {
     const location = await Location.getCurrentPositionAsync({});
     setLocation(`${location.coords.latitude},${location.coords.longitude}`);
     setModalOpen(true);
   };
+
+  const saveRestaurant = useCreateRestaurant(restaurantName);
+
+  useEffect(() => {
+    if (restaurantName == "") return;
+    saveRestaurant.mutate();
+    setRestaurantName("");
+  }, [restaurantName]);
 
   return (
     <View style={tailwind("p-6 h-full")}>
@@ -68,7 +78,8 @@ const Restaurant: React.FC = () => {
                   style={tailwind("text-lg my-4")}
                   key={googleRestaurant.name}
                   onPress={() => {
-                    console.log(googleRestaurant.name);
+                    setRestaurantName(googleRestaurant.name);
+                    setModalOpen(false);
                   }}
                 >
                   {googleRestaurant.name}

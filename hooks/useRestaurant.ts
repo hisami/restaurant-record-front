@@ -1,4 +1,9 @@
-import { useQuery } from "react-query";
+import {
+  useQuery,
+  UseMutationResult,
+  useQueryClient,
+  useMutation,
+} from "react-query";
 import axios from "axios";
 
 import { API_URL } from "../config";
@@ -25,6 +30,23 @@ export const useFetchRestaurant = (): {
   );
 
   return { isLoading, restaurantList };
+};
+
+export const useCreateRestaurant = (
+  name: string
+): UseMutationResult<void, unknown, void, unknown> => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    () =>
+      axios.post(`${API_URL}/restaurants`, {
+        name,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("restaurants");
+      },
+    }
+  );
 };
 
 export const useFetchGoogleRestaurant = (
