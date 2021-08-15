@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
 import tailwind from "tailwind-rn";
-import Restaurant from "./pages/restaurant";
+import Restaurant from "./pages/Restaurant";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
