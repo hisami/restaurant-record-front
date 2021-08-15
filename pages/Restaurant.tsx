@@ -71,26 +71,28 @@ const Restaurant: React.FC = () => {
         }}
       >
         {!isGoogleLoading && (
-          <ScrollView style={tailwind("mt-20 mx-5")}>
-            {googleRestaurantList.map((googleRestaurant) => {
-              return (
-                <Text
-                  style={tailwind("text-lg my-4")}
-                  key={googleRestaurant.name}
-                  onPress={() => {
-                    setRestaurantName(googleRestaurant.name);
-                    setModalOpen(false);
-                  }}
-                >
-                  {googleRestaurant.name}
-                </Text>
-              );
-            })}
-          </ScrollView>
+          <>
+            <ScrollView style={tailwind("mt-10 mx-5")}>
+              {googleRestaurantList.map((googleRestaurant) => {
+                return (
+                  <Text
+                    style={tailwind("text-lg my-4")}
+                    key={googleRestaurant.name}
+                    onPress={() => {
+                      setRestaurantName(googleRestaurant.name);
+                      setModalOpen(false);
+                    }}
+                  >
+                    {googleRestaurant.name}
+                  </Text>
+                );
+              })}
+            </ScrollView>
+            <View style={tailwind("h-20")}>
+              <Button onPress={() => setModalOpen(false)} title="Close modal" />
+            </View>
+          </>
         )}
-        <View style={tailwind("h-20")}>
-          <Button onPress={() => setModalOpen(false)} title="Close modal" />
-        </View>
       </Modal>
     </View>
   );

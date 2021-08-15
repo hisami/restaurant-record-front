@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SafeAreaView, LogBox } from "react-native";
+import { SafeAreaView, LogBox, StatusBar } from "react-native";
 import tailwind from "tailwind-rn";
 import { QueryClient, QueryClientProvider } from "react-query";
 import * as Location from "expo-location";
@@ -23,6 +23,7 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={tailwind("h-full")}>
+        <StatusBar />
         <Restaurant />
       </SafeAreaView>
     </QueryClientProvider>
