@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Text, View, TextInput, ScrollView, Button } from "react-native";
 import tailwind from "tailwind-rn";
+import * as Location from "expo-location";
 
 import {
   useFetchRestaurant,
@@ -12,6 +13,11 @@ const Restaurant: React.FC = () => {
   const [location, setLocation] = useState("0,0");
   const { isLoading, restaurantList } = useFetchRestaurant();
   const { googleRestaurantList } = useFetchGoogleRestaurant(location);
+
+  const getLocation = async () => {
+    const location = await Location.getCurrentPositionAsync({});
+    setLocation(`${location.coords.latitude},${location.coords.longitude}`);
+  };
 
   console.log(googleRestaurantList);
 
@@ -43,12 +49,7 @@ const Restaurant: React.FC = () => {
       )}
 
       <View style={tailwind("my-4 h-10")}>
-        <Button
-          onPress={() => {
-            setLocation("0,0");
-          }}
-          title="近くのお店を検索して追加"
-        />
+        <Button onPress={getLocation} title="近くのお店を検索して追加" />
       </View>
     </View>
   );
