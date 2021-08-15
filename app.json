@@ -2,6 +2,7 @@
   "expo": {
     "name": "restaurant-record-front",
     "slug": "restaurant-record-front",
+    "owner": "hisamitsu",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
