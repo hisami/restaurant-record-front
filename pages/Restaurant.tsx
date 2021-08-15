@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Text, View, TextInput, ScrollView, Button } from "react-native";
+import { Text, View, TextInput, ScrollView, Button, Modal } from "react-native";
 import tailwind from "tailwind-rn";
 import * as Location from "expo-location";
 
@@ -12,14 +12,15 @@ import {
 const Restaurant: React.FC = () => {
   const [location, setLocation] = useState("0,0");
   const { isLoading, restaurantList } = useFetchRestaurant();
-  const { googleRestaurantList } = useFetchGoogleRestaurant(location);
+  const { isLoading: isGoogleLoading, googleRestaurantList } =
+    useFetchGoogleRestaurant(location);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const getLocation = async () => {
     const location = await Location.getCurrentPositionAsync({});
     setLocation(`${location.coords.latitude},${location.coords.longitude}`);
+    setModalOpen(true);
   };
-
-  console.log(googleRestaurantList);
 
   return (
     <View style={tailwind("p-6 h-full")}>
@@ -51,6 +52,35 @@ const Restaurant: React.FC = () => {
       <View style={tailwind("my-4 h-10")}>
         <Button onPress={getLocation} title="近くのお店を検索して追加" />
       </View>
+
+      <Modal
+        visible={isModalOpen}
+        animationType="fade"
+        onRequestClose={() => {
+          setModalOpen(false);
+        }}
+      >
+        {!isGoogleLoading && (
+          <ScrollView style={tailwind("mt-20 mx-5")}>
+            {googleRestaurantList.map((googleRestaurant) => {
+              return (
+                <Text
+                  style={tailwind("text-lg my-4")}
+                  key={googleRestaurant.name}
+                  onPress={() => {
+                    console.log(googleRestaurant.name);
+                  }}
+                >
+                  {googleRestaurant.name}
+                </Text>
+              );
+            })}
+          </ScrollView>
+        )}
+        <View style={tailwind("h-20")}>
+          <Button onPress={() => setModalOpen(false)} title="Close modal" />
+        </View>
+      </Modal>
     </View>
   );
 };
